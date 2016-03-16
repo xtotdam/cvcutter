@@ -2,7 +2,10 @@
 
 ### Usage
 
+Command line tool:
 `python cvcutter.py [folder-with-images-to-cut]`
+
+Also ipyNB for cool graphics and debug
 
 ### Dependencies
 
