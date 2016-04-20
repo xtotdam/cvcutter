@@ -6,20 +6,23 @@ import numpy as np
 import os
 import sys
 
-# srcfolder = 'src'
+save_jpgs_too = False
+
 srcfolder = sys.argv[-1]
-folder = 'out'
-pngfolder = 'outpng'
-try:
-    os.mkdir(srcfolder + os.sep + folder)
-except OSError:
-    print 'Can\'t create out folder. Maybe it exists? pass\n'
-    pass
+
+if save_jpgs_too:
+    folder = 'out'
+    try:
+        os.mkdir(srcfolder + os.sep + folder)
+    except OSError:
+        print 'Can\'t create ' + folder + ' folder. Maybe it exists? pass\n'
+        pass
     
+pngfolder = 'outpng'
 try:
     os.mkdir(srcfolder + os.sep + pngfolder)
 except OSError:
-    print 'Can\'t create out pngfolder. Maybe it exists? pass\n'
+    print 'Can\'t create ' + pngfolder + ' folder. Maybe it exists? pass\n'
     pass
 
 
@@ -148,12 +151,15 @@ for f in sorted(glob(srcfolder + os.sep + '*.jpg')):
                                 49, 
                                 15)
     
-    ret, th3 = cv2.threshold(th2, 100, 255, cv2.THRESH_BINARY)  
-    outf = srcfolder + os.sep + folder + os.sep + f.split(os.sep)[-1]
+    ret, th3 = cv2.threshold(th2, 100, 255, cv2.THRESH_BINARY)
+
+    if save_jpgs_too:
+        outf = srcfolder + os.sep + folder + os.sep + f.split(os.sep)[-1]
+        print 'Saving jpg to ', outf
+        cv2.imwrite(outf, th3)
+
     outfpng = srcfolder + os.sep + pngfolder + os.sep + f.split(os.sep)[-1] + '.png'
-    print 'Saving jpg to ', outf
     print 'Saving png to ', outfpng
-    cv2.imwrite(outf, th3)
     cv2.imwrite(outfpng, th3)
 
     print '='*70
